@@ -4,9 +4,9 @@ Podslurp is an HTTP download server with a minimal JSON API for download  statis
 
 ## Usage
 
-    ```bash
-    Usage: node index.js -r /path/to/filedir
+```bash
+Usage: node index.js -r /path/to/filedir
 
-    Options:
-      -r, --rootdir                                                       [required]
-    ```
+Options:
+-r, --rootdir                                                       [required]
+```
