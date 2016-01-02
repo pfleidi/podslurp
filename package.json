@@ -1,0 +1,33 @@
+{
+  "name": "podslurp",
+  "version": "0.0.1",
+  "description": "An HTTP download server optimized for podcasts",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pfleidi/podslurp.git"
+  },
+  "keywords": [
+    "http",
+    "podcast",
+    "download",
+    "server"
+  ],
+  "author": "Sven Pfleiderer <sg+github@roothausen.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pfleidi/podslurp/issues"
+  },
+  "homepage": "https://github.com/pfleidi/podslurp#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "send": "^0.13.0",
+    "yargs": "^3.31.0"
+  }
+}
