@@ -1,7 +1,9 @@
-nguage: node_js
+language: node_js
 node_js:
   - "5.3"
-  - "4.2.4"
+  - "4.2"
+  - "4.1"
+  - "4.0"
 sudo: false
 before_script:
   - npm install -g gulp
