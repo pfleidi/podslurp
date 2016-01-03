@@ -3,16 +3,22 @@ const assert = require('assert');
 const supertest = require('supertest');
 
 const fixtureDir = path.join(__dirname, '..', 'fixtures');
-const app = require('../../lib/server').start({ rootpath: fixtureDir });
 
 describe('API', function () {
-  var server = supertest.agent(app);
+  var app;
+  var server;
+
+  beforeEach(function () {
+    app = require('../../lib/server').start({ rootpath: fixtureDir });
+    server = supertest.agent(app);
+  });
 
   describe('without downloaded files', function () {
     it('returns an empty files list', function (done) {
       server
       .get('/api/stats')
       .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
       .expect(200, {
         files: []
       }, done);
@@ -30,6 +36,7 @@ describe('API', function () {
       server
       .get('/api/stats')
       .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
       .expect(200, {
         "files": [
           {
@@ -37,6 +44,35 @@ describe('API', function () {
             "stats": {
               "complete": 1,
               "sentBytes": 5242880
+            }
+          }
+        ]
+      }, done);
+    });
+  });
+
+  describe('with a partially downloaded file', function () {
+    var file = '/testfile.img';
+
+    beforeEach(function (done) {
+      server
+      .get(file)
+      .set('Range', 'bytes=1000000-2000000')
+      .expect(206, done);
+    });
+
+    it ('returns a valid files list', function (done) {
+      server
+      .get('/api/stats')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, {
+        "files": [
+          {
+            "fileName": file,
+            "stats": {
+              "incomplete": 1,
+              "sentBytes": 1000001
             }
           }
         ]

@@ -26,5 +26,17 @@ describe('Downloads', function () {
     });
   });
 
+  describe('with a range request', function () {
+    var file = '/testfile.img';
+
+    it('returns the file', function (done) {
+      server
+      .get(file)
+      .set('Range', 'bytes=1000000-2000000')
+      .expect('Content-Length', '1000001')
+      .expect(206, done);
+    });
+  });
+
 });
 
