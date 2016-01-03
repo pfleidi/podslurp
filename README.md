@@ -22,9 +22,13 @@ Options:
   --port, -p      the port to listen on                          [default: 3000]
 ```
 
-# Run tests
+## Run tests
 
 ```bash
 npm install -g gulp
 gulp test
 ```
+
+## License
+
+The MIT License (MIT)
