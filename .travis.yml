@@ -2,6 +2,8 @@ nguage: node_js
 node_js:
   - "5.3"
   - "4.2.4"
+sudo: false
 before_script:
   - npm install -g gulp
-script: gulp
+script:
+  - npm test
