@@ -5,11 +5,26 @@
 
 Podslurp is an HTTP download server with a minimal JSON API for download  statistics.
 
+## Installation
+
+```bash
+git clone https://github.com/pfleidi/podslurp.git && cd podslurp
+npm install
+```
+
 ## Usage
 
 ```bash
-Usage: node index.js -r /path/to/filedir
+Usage: index.js --rootpath /path/to/filedir [--port PORT]
 
 Options:
--r, --rootdir                                                       [required]
+  --rootpath, -r  the root path where the files are located           [required]
+  --port, -p      the port to listen on                          [default: 3000]
+```
+
+# Run tests
+
+```bash
+npm install -g gulp
+gulp test
 ```
