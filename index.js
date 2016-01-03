@@ -15,7 +15,7 @@ var argv = require('yargs')
   default: 3000
 }).argv;
 
-var config = { rootdir: argv.rootpath };
+var config = { rootpath: argv.rootpath };
 var app = server.start(config);
 
 app.listen(argv.port);
