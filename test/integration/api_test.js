@@ -11,7 +11,10 @@ describe('API', function () {
   var server;
 
   beforeEach(function () {
-    app = require('../../lib/server').start({ rootpath: fixtureDir });
+    var statistics = require('../../lib/statistics')({});
+    app = require('../../lib/server').setup(
+      { rootpath: fixtureDir }, statistics
+    );
     server = supertest.agent(app);
   });
 

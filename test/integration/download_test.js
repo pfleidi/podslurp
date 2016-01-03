@@ -3,7 +3,10 @@ const assert = require('assert');
 const supertest = require('supertest');
 
 const fixtureDir = path.join(__dirname, '..', 'fixtures');
-const app = require('../../lib/server').start({ rootpath: fixtureDir });
+const statistics = require('../../lib/statistics')({});
+const app = require('../../lib/server').setup(
+  { rootpath: fixtureDir }, statistics
+);
 
 describe('Downloads', function () {
   var server = supertest.agent(app);
