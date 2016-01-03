@@ -31,6 +31,7 @@
     "express": "^4.13.3",
     "morgan": "^1.6.1",
     "send": "^0.13.0",
+    "useragent": "^2.1.8",
     "yargs": "^3.31.0"
   },
   "devDependencies": {

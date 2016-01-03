@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const assert = require('assert');
 const supertest = require('supertest');
@@ -41,9 +43,16 @@ describe('API', function () {
         "files": [
           {
             "fileName": file,
-            "stats": {
-              "complete": 1,
-              "sentBytes": 5242880
+            "sentBytes": 5242880,
+            "incompleteDownloads" : {
+              "count": 0,
+              "userAgents": {}
+            },
+            "completeDownloads": {
+              "count": 1,
+              "userAgents": {
+                "Other": 1
+              }
             }
           }
         ]
@@ -70,9 +79,16 @@ describe('API', function () {
         "files": [
           {
             "fileName": file,
-            "stats": {
-              "incomplete": 1,
-              "sentBytes": 1000001
+            "sentBytes": 1000001,
+            "incompleteDownloads" : {
+              "count": 1,
+              "userAgents": {
+                "Other": 1
+              }
+            },
+            "completeDownloads": {
+              "count": 0,
+              "userAgents": {}
             }
           }
         ]
