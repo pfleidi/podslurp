@@ -26,7 +26,10 @@
   },
   "homepage": "https://github.com/pfleidi/podslurp#readme",
   "dependencies": {
+    "compression": "^1.6.0",
+    "errorhandler": "^1.4.2",
     "express": "^4.13.3",
+    "morgan": "^1.6.1",
     "send": "^0.13.0",
     "yargs": "^3.31.0"
   },

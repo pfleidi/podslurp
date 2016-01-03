@@ -1,27 +1,21 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const url = require('url');
-
-const express = require('express');
-const send = require('send');
+const server = require('./lib/server');
 
 var argv = require('yargs')
-.usage('Usage: $0 -r /path/to/filedir')
-.demand('r')
-.alias('r', 'rootdir')
-.argv;
+.usage('Usage: $0 --rootpath /path/to/filedir [--port PORT]')
+.option('rootpath', {
+  alias: 'r',
+  describe: "the root path where the files are located",
+  demand: true
+})
+.option('port', {
+  alias: 'p',
+  describe: "the port to listen on",
+  default: 3000
+}).argv;
 
-const app = express();
-const config = { rootdir: argv.r };
+var config = { rootdir: argv.rootpath };
+var app = server.start(config);
 
-const statsDB = require('./lib/statsdb')(config);
-const sender = require('./lib/sender')(config, statsDB);
-const api = require('./lib/api')(config, statsDB);
-
-app.get('/api/stats.json', api);
-app.get('/*', sender);
-
-app.listen(3000);
-
+app.listen(argv.port);
