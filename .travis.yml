@@ -9,3 +9,5 @@ before_script:
   - npm install -g gulp
 script:
   - npm test
+after_script:
+  - "test -e ./coverage/lcov/lcov.info && cat ./coverage/lcov//lcov.info | coveralls"

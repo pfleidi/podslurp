@@ -5,9 +5,10 @@ const istanbul = require('gulp-istanbul');
 
 var istanbulSettings = {
   dir: 'coverage',
-  reporters: ['html', 'text', 'text-summary'],
+  reporters: ['lcovonly', 'html', 'text', 'text-summary'],
   reportOpts: {
-    html: { dir: 'coverage/html' }
+    html: { dir: 'coverage/html' },
+    lcovonly: { dir: 'coverage/lcov' }
   }
 };
 
