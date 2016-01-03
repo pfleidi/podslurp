@@ -11,7 +11,7 @@ var argv = require('yargs')
 .usage('Usage: $0 -r /path/to/filedir')
 .demand('r')
 .alias('r', 'rootdir')
-.argv
+.argv;
 
 const app = express();
 const config = { rootdir: argv.r };
