@@ -29,5 +29,10 @@
     "express": "^4.13.3",
     "send": "^0.13.0",
     "yargs": "^3.31.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-mocha": "^2.2.0"
   }
 }

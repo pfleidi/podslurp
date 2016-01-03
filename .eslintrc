@@ -1,0 +1,8 @@
+{
+  "ecmaFeatures": {
+    "blockBindings": true,
+  },
+  "rules": {
+    "semi": 2
+  }
+}
