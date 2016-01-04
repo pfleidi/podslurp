@@ -29,7 +29,9 @@
     "compression": "^1.6.0",
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
+    "knex": "^0.9.0",
     "morgan": "^1.6.1",
+    "mysql": "^2.10.0",
     "send": "^0.13.0",
     "useragent": "^2.1.8",
     "yargs": "^3.31.0"
