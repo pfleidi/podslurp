@@ -22,10 +22,12 @@ describe('Downloads', function () {
   });
 
   describe('with a valid file path', function () {
-    var file = '/testfile.img';
+    var file = '/silence.m4a';
 
     it('returns the file', function (done) {
-      server.get(file).expect(200, done);
+      server.get(file)
+      .expect('Content-Type', 'audio/mp4')
+      .expect(200, done);
     });
   });
 
@@ -37,6 +39,7 @@ describe('Downloads', function () {
       .get(file)
       .set('Range', 'bytes=1000000-2000000')
       .expect('Content-Length', '1000001')
+      .expect('Content-Type', 'application/octet-stream')
       .expect(206, done);
     });
   });
