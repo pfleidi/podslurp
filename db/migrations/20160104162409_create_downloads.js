@@ -2,9 +2,10 @@ var table = function (table) {
   table.increments().primary();
   table.string('file_name').notNullable().unique();
 
-  table.boolean('completed').notNullable();
+  table.enum('transfer_state', ['completed', 'partial', 'canceled']).notNullable();
   table.integer('transferred_bytes').notNullable();
   table.integer('transfer_time').notNullable();
+  table.integer('response_code').notNullable();
   table.string('parsed_user_agent').notNullable();
   table.string('raw_user_agent').notNullable();
   table.string('country').notNullable();
@@ -16,6 +17,7 @@ var table = function (table) {
 
   // defined by timestamps();
   table.index('created_at');
+  table.index('transfer_state');
 };
 
 exports.up = function (knex, Promise) {
