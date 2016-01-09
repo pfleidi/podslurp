@@ -47,8 +47,7 @@ module.exports = {
     client: 'mysql',
     connection: {
       database: 'podslurp_travis_test',
-      user:     'root',
-      password: ''
+      user:     'travis'
     },
     pool: {
       min: 2,
