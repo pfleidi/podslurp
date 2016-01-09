@@ -52,7 +52,7 @@ gulp.task('lint', function () {
 });
 
 gulp.task('pre-test', function () {
-  return gulp.src(['lib/**/*.js'])
+  return gulp.src(['lib/**/*.js', 'models/**/*.js', 'routes/**/*.js'])
   .pipe(istanbul())
   .pipe(istanbul.hookRequire());
 });

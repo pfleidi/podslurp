@@ -1,21 +1,17 @@
 'use strict';
 
-const path = require('path');
 const assert = require('assert');
 const supertest = require('supertest');
 
-const fixtureDir = path.join(__dirname, '..', 'fixtures');
+const helper = require('./test_helper');
 
 describe('API', function () {
-  var app;
-  var server;
+  var server = supertest.agent(helper.app);
 
-  beforeEach(function () {
-    var statistics = require('../../lib/statistics')({});
-    app = require('../../lib/server').setup(
-      { rootpath: fixtureDir }, statistics
-    );
-    server = supertest.agent(app);
+  beforeEach(function (done) {
+    helper.models.destroyAll().then(function () {
+      done();
+    });
   });
 
   describe('without downloaded files', function () {
@@ -25,6 +21,8 @@ describe('API', function () {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, {
+        count: 0,
+        sentBytes: 0,
         files: []
       }, done);
     });
@@ -43,20 +41,14 @@ describe('API', function () {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, {
+        "count": 1,
+        "sentBytes": 5242880,
+
         "files": [
           {
             "fileName": file,
-            "sentBytes": 5242880,
-            "incompleteDownloads" : {
-              "count": 0,
-              "userAgents": {}
-            },
-            "completeDownloads": {
-              "count": 1,
-              "userAgents": {
-                "Other": 1
-              }
-            }
+            "count": 1,
+            "sentBytes": 5242880
           }
         ]
       }, done);
@@ -79,20 +71,14 @@ describe('API', function () {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, {
+        "count": 1,
+        "sentBytes": 1000001,
+
         "files": [
           {
             "fileName": file,
-            "sentBytes": 1000001,
-            "incompleteDownloads" : {
-              "count": 1,
-              "userAgents": {
-                "Other": 1
-              }
-            },
-            "completeDownloads": {
-              "count": 0,
-              "userAgents": {}
-            }
+            "count": 1,
+            "sentBytes": 1000001
           }
         ]
       }, done);

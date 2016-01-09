@@ -5,6 +5,8 @@ const Promise = require('bluebird');
 module.exports = function models(database) {
 
   var bookshelf = require('bookshelf')(database);
+  bookshelf.plugin(require('bookshelf-scopes'));
+
   var Download = require('./download')(bookshelf);
 
   function destroyAll() {
@@ -19,6 +21,7 @@ module.exports = function models(database) {
 
   return {
     destroyAll: destroyAll,
+    bookshelf: bookshelf,
     Download: Download
   };
 };

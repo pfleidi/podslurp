@@ -1,9 +1,9 @@
 var table = function (table) {
   table.increments().primary();
-  table.string('file_name').notNullable().unique();
+  table.string('file_name').notNullable();
 
   table.enum('transfer_state', ['completed', 'partial', 'canceled']).notNullable();
-  table.integer('transferred_bytes').notNullable();
+  table.integer('transferred_bytes').defaultTo(0).notNullable();
   table.integer('transfer_time').notNullable();
   table.integer('response_code').notNullable();
   table.string('parsed_user_agent').notNullable();
@@ -17,6 +17,7 @@ var table = function (table) {
 
   // defined by timestamps();
   table.index('created_at');
+  table.index('file_name');
   table.index('transfer_state');
 };
 

@@ -38,6 +38,20 @@ module.exports = function download(bookshelf) {
       this.on('saving', this.validateSave);
     },
 
+    scopes: {
+      complete: function (qb) {
+        qb.where({ transfer_state: 'completed' });
+      },
+
+      incomplete: function (qb) {
+        qb.where({ transfer_state: 'partial' });
+      },
+
+      canceled: function (qb) {
+        qb.where({ transfer_state: 'canceled' });
+      }
+    },
+
     validateSave: function () {
       return new checkit(schema).run(this.attributes);
     }
@@ -53,6 +67,24 @@ module.exports = function download(bookshelf) {
       })
       .catch(function (error) {
         console.error('Error saving entry: ' + error);
+      });
+    },
+
+    metaData: function (qb) {
+      return this.query(function (qb) {
+        qb
+        .sum('transferred_bytes as sentBytes')
+        .count('* as count');
+      });
+    },
+
+    files: function (qb) {
+      return this.query(function (qb) {
+        qb
+        .select('file_name as fileName')
+        .count('* as count')
+        .sum('transferred_bytes as sentBytes')
+        .groupBy('file_name');
       });
     }
   });
