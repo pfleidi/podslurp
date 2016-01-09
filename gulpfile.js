@@ -1,3 +1,7 @@
+'use strict';
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 const util = require('util');
 const path = require('path');
 const exec = require('child_process').exec;
