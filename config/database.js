@@ -5,16 +5,16 @@ module.exports = {
   development: {
     client: 'mysql',
     connection: {
-      database: 'podslurp',
+      database: 'podslurp_develop',
       user:     'podslurp',
       password: 'password'
     }
   },
 
-  staging: {
+  test: {
     client: 'mysql',
     connection: {
-      database: 'podslurp',
+      database: 'podslurp_test',
       user:     'podslurp',
       password: 'password'
     },
@@ -28,9 +28,9 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'mysql',
     connection: {
-      database: 'podslurp',
+      database: 'podslurp_prod',
       user:     'podslurp',
       password: 'password'
     },
