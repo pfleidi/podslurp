@@ -8,6 +8,7 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
+const exit = require('gulp-exit');
 
 const dbConfigPath = path.join(__dirname, 'config', 'database.js');
 const dbPath = path.join(__dirname, 'db');
@@ -46,7 +47,8 @@ gulp.task('lint', function () {
   return gulp.src(['**/*.js','!node_modules/**'])
   .pipe(eslint())
   .pipe(eslint.format())
-  .pipe(eslint.failAfterError());
+  .pipe(eslint.failAfterError())
+  .pipe(exit());
 });
 
 gulp.task('pre-test', function () {
@@ -58,6 +60,7 @@ gulp.task('pre-test', function () {
 gulp.task('test', ['pre-test'], function () {
   return gulp.src('./test/**/*_test.js')
   .pipe(mocha())
-  .pipe(istanbul.writeReports(istanbulSettings));
+  .pipe(istanbul.writeReports(istanbulSettings))
+  .pipe(exit());
 });
 
