@@ -1,12 +1,10 @@
-const path = require('path');
+'use strict';
+
 const assert = require('assert');
 const supertest = require('supertest');
 
-const fixtureDir = path.join(__dirname, '..', 'fixtures');
-const statistics = require('../../lib/statistics')({});
-const app = require('../../lib/server').setup(
-  { rootpath: fixtureDir }, statistics
-);
+const helper = require('./test_helper');
+const app = helper.app;
 
 describe('Downloads', function () {
   var server = supertest.agent(app);

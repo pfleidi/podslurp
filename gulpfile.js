@@ -58,7 +58,7 @@ gulp.task('pre-test', function () {
 });
 
 gulp.task('test', ['pre-test'], function () {
-  return gulp.src('./test/**/*.js')
+  return gulp.src('./test/**/*_test.js')
   .pipe(mocha())
   .pipe(istanbul.writeReports(istanbulSettings));
 });
