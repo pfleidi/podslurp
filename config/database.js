@@ -41,6 +41,22 @@ module.exports = {
     migrations: {
       tableName: 'knex_migrations'
     }
-  }
+  },
+
+  travisci: {
+    client: 'mysql',
+    connection: {
+      database: 'podslurp_travis_test',
+      user:     'root',
+      password: ''
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
 
 };

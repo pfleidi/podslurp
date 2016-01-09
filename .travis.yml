@@ -1,3 +1,6 @@
+env:
+  global:
+      - NODE_ENV=travisci
 language: node_js
 node_js:
   - "5.3"
@@ -5,9 +8,13 @@ node_js:
   - "4.1"
   - "4.0"
 sudo: false
-before_script:
-  - npm install -g gulp
 script:
   - npm test
+before_script:
+  - npm install -g gulp
+  - mysql -e 'CREATE DATABASE podslurp_travis_test';
+  - gulp db:migrate
 after_script:
   - "test -e ./coverage/lcov/lcov.info && cat ./coverage/lcov//lcov.info | coveralls"
+services:
+  - mysql
