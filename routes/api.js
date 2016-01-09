@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const Promise = require('bluebird');
 
 module.exports = function api(config, models) {
   let Download = models.Download;
@@ -26,12 +27,11 @@ module.exports = function api(config, models) {
   }
 
   return function (req, res) {
-    fetchMetaData().then(function (allData) {
-      fetchFiles().then(function (fileData) {
-        res.json(
-          _.merge(allData, { files: fileData })
-        );
-      });
+    Promise.all([fetchMetaData(), fetchFiles()]).then(function (results) {
+      let metaData = results[0];
+      let filesData = results[1];
+
+      res.json(_.merge(metaData, { files: filesData }));
     });
   };
 };
