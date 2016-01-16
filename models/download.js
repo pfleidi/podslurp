@@ -4,6 +4,7 @@ const checkit = require('checkit');
 const _ = require('lodash');
 
 const schema = {
+  id: ['required', 'uuid'],
   file_name: 'required',
   transfer_state: 'required',
   transferred_bytes: ['required', 'integer'],
@@ -31,8 +32,6 @@ module.exports = function download(bookshelf) {
 
   var Download = bookshelf.Model.extend({
     tableName: 'downloads',
-
-    hasTimestamps: ['created_at', 'updated_at'],
 
     initialize: function (attrs, opts) {
       this.on('saving', this.validateSave);

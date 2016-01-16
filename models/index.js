@@ -1,13 +1,27 @@
 'use strict';
 
 const Promise = require('bluebird');
+const uuid = require('node-uuid');
 
 module.exports = function models(database) {
+  let bookshelf = require('bookshelf')(database);
 
-  var bookshelf = require('bookshelf')(database);
   bookshelf.plugin(require('bookshelf-scopes'));
 
-  var Download = require('./download')(bookshelf);
+  /* define base model */
+  bookshelf.Model = bookshelf.Model.extend({
+
+    // use created_at and updated_at
+    hasTimestamps: true,
+
+    defaults: function () {
+      return { id: uuid.v4() };
+    }
+  });
+
+  bookshelf.foo = 'bar';
+
+  let Download = require('./download')(bookshelf);
 
   function destroyAll() {
     return Download.fetchAll().then(function (entries) {

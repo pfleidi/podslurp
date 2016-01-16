@@ -1,5 +1,5 @@
 var table = function (table) {
-  table.increments().primary();
+  table.uuid('id').primary();
   table.string('file_name').notNullable();
 
   table.enum('transfer_state', ['completed', 'partial', 'canceled']).notNullable();
