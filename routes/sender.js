@@ -48,8 +48,8 @@ module.exports = function sender(config, models) {
         transfer_time: duration,
         response_code: res.statusCode,
         ip_address: req.ip,
-        raw_user_agent: req.headers['user-agent'],
-        raw_referrer: req.headers.referrer || '?'
+        raw_user_agent: req.headers['user-agent'] || 'unknown',
+        raw_referrer: req.headers.referrer || 'unknown'
       };
     }
 
