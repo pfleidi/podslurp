@@ -3,9 +3,11 @@
 const checkit = require('checkit');
 const _ = require('lodash');
 
+require('./file')
+
 const schema = {
   id: ['required', 'uuid'],
-  file_name: 'required',
+
   transfer_state: 'required',
   transferred_bytes: ['required', 'integer'],
   transfer_time: ['required', 'integer'],
@@ -16,7 +18,9 @@ const schema = {
   ip_address: 'required',
   parsed_referrer: 'required',
   raw_referrer: 'required',
-  mime_type: 'required'
+
+  created_at: ['required', 'date'],
+  updated_at: ['required', 'date']
 };
 
 module.exports = function download(bookshelf) {
@@ -53,21 +57,13 @@ module.exports = function download(bookshelf) {
 
     validateSave: function () {
       return new checkit(schema).run(this.attributes);
+    },
+
+    file: function () {
+      return this.belongsTo('File');
     }
   }, {
     /* class methods */
-
-    create: function (values) {
-      var attributes = extractAttributes(values);
-
-      this.forge(attributes).save()
-      .then(function () {
-        console.log('Entry successfully saved!');
-      })
-      .catch(function (error) {
-        console.error('Error saving entry: ' + error);
-      });
-    },
 
     metaData: function (qb) {
       return this.query(function (qb) {
@@ -88,5 +84,5 @@ module.exports = function download(bookshelf) {
     }
   });
 
-  return Download;
+  return bookshelf.model('Download', Download);
 };
