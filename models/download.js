@@ -56,21 +56,11 @@ module.exports = function download(bookshelf) {
   }, {
     /* class methods */
 
-    metaData: function (qb) {
+    stats: function (qb) {
       return this.query(function (qb) {
         qb
         .sum('transferred_bytes as sentBytes')
         .count('* as count');
-      });
-    },
-
-    files: function (qb) {
-      return this.query(function (qb) {
-        qb
-        .select('file_name as fileName')
-        .count('* as count')
-        .sum('transferred_bytes as sentBytes')
-        .groupBy('file_name');
       });
     }
   });

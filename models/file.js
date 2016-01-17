@@ -32,6 +32,19 @@ module.exports = function file(bookshelf) {
     downloads: function () {
       return this.hasMany('Download');
     }
+  }, {
+    /* class methods */
+
+    stats: function (qb) {
+      return this.query((qb) => {
+        qb
+        .select('path')
+        .count('downloads.id as count')
+        .sum('downloads.transferred_bytes as sentBytes')
+        .innerJoin('downloads', 'files.id', 'downloads.file_id')
+        .groupBy('files.path');
+      });
+    }
   });
 
   return bookshelf.model('File', File);

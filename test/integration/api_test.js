@@ -32,7 +32,9 @@ describe('API', function () {
     var file = '/testfile.img';
 
     beforeEach(function (done) {
-      server.get(file).expect(200, done);
+      server.get(file).expect(200, () => {
+        setTimeout(done, 20);
+      });
     });
 
     it ('returns a valid files list', function (done) {
@@ -46,7 +48,7 @@ describe('API', function () {
 
         "files": [
           {
-            "fileName": file,
+            "path": file,
             "count": 1,
             "sentBytes": 5242880
           }
@@ -62,7 +64,9 @@ describe('API', function () {
       server
       .get(file)
       .set('Range', 'bytes=1000000-2000000')
-      .expect(206, done);
+      .expect(206, () => {
+        setTimeout(done, 20);
+      });
     });
 
     it ('returns a valid files list', function (done) {
@@ -76,7 +80,7 @@ describe('API', function () {
 
         "files": [
           {
-            "fileName": file,
+            "path": file,
             "count": 1,
             "sentBytes": 1000001
           }
