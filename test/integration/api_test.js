@@ -33,7 +33,7 @@ describe('API', function () {
 
     beforeEach(function (done) {
       server.get(file).expect(200, () => {
-        setTimeout(done, 20);
+        setTimeout(done, 30);
       });
     });
 
@@ -66,7 +66,7 @@ describe('API', function () {
       .get(file)
       .set('Range', 'bytes=1000000-2000000')
       .expect(206, () => {
-        setTimeout(done, 20);
+        setTimeout(done, 30);
       });
     });
 
