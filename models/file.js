@@ -38,7 +38,7 @@ module.exports = function file(bookshelf) {
     stats: function (qb) {
       return this.query((qb) => {
         qb
-        .select('path')
+        .select('path', 'size')
         .count('downloads.id as count')
         .sum('downloads.transferred_bytes as sentBytes')
         .innerJoin('downloads', 'files.id', 'downloads.file_id')

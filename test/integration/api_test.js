@@ -50,6 +50,7 @@ describe('API', function () {
           {
             "path": file,
             "count": 1,
+            "size" : 5242880,
             "sentBytes": 5242880
           }
         ]
@@ -82,6 +83,7 @@ describe('API', function () {
           {
             "path": file,
             "count": 1,
+            "size" : 5242880,
             "sentBytes": 1000001
           }
         ]
