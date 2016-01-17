@@ -2,7 +2,7 @@ var table = function (table) {
   table.uuid('id').primary();
   table.string('path').unique().notNullable();
 
-  table.integer('size').notNullable();
+  table.bigInteger('size').defaultTo(0).notNullable();
   table.string('mime_type').notNullable();
 
   table.timestamps();

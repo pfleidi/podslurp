@@ -3,7 +3,7 @@ var table = function (table) {
   table.string('file_name').notNullable();
 
   table.enum('transfer_state', ['completed', 'partial', 'canceled']).notNullable();
-  table.integer('transferred_bytes').defaultTo(0).notNullable();
+  table.bigInteger('transferred_bytes').defaultTo(0).notNullable();
   table.integer('transfer_time').notNullable();
   table.integer('response_code').notNullable();
   table.string('parsed_user_agent').notNullable();
