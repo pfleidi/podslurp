@@ -1,15 +1,16 @@
 'use strict';
 
-const url = require('url');
 const send = require('send');
+const mime = require('mime-types')
 
 module.exports = function sender(config, models) {
   var Download = models.Download;
+  var File = models.File;
 
   function createSendStream(req, res) {
     var startTime = new Date();
     var sentBytes = 0;
-    var totalBytes = -1;
+    var fileStat;
 
     function onError(err) {
       res.statusCode = err.status || 500;
@@ -23,7 +24,7 @@ module.exports = function sender(config, models) {
     }
 
     function onFile(path, stat) {
-      totalBytes = stat.size;
+      fileStat = stat;
     }
 
     function onStream(stream) {
@@ -34,22 +35,36 @@ module.exports = function sender(config, models) {
 
     function onEnd() {
       var duration = new Date() - startTime;
+      var totalBytes = fileStat.size;
+
       var transferState = sentBytes === totalBytes ? 'completed' : 'partial';
       var values = extractValues(transferState, duration);
 
-      Download.create(values);
+      createDownload(req, fileStat, values);
+    }
+
+    function createDownload(req, fileStat, values) {
+      return File.firstOrCreate({ path: req.path }, {
+        size: fileStat.size,
+        mime_type: mime.lookup(req.path)
+      })
+      .then((file) => {
+        return file.downloads().create(values);
+      });
     }
 
     function extractValues(transferState, duration) {
       return {
-        file_name: req.path,
         transfer_state: transferState,
         transferred_bytes: sentBytes,
         transfer_time: duration,
         response_code: res.statusCode,
         ip_address: req.ip,
+        country: '?',
         raw_user_agent: req.headers['user-agent'] || 'unknown',
-        raw_referrer: req.headers.referrer || 'unknown'
+        parsed_user_agent: '?',
+        raw_referrer: req.headers.referrer || 'unknown',
+        parsed_referrer: '?'
       };
     }
 
@@ -65,7 +80,7 @@ module.exports = function sender(config, models) {
       var duration = new Date() - startTime;
       var values = extractValues('canceled', duration);
 
-      Download.create(values);
+      createDownload(req, fileStat, values);
     });
 
     return sendStream;

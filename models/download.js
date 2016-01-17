@@ -25,15 +25,6 @@ const schema = {
 
 module.exports = function download(bookshelf) {
 
-  function extractAttributes(values) {
-    return _.merge(values, {
-      parsed_referrer: '?',
-      parsed_user_agent: '?',
-      country: '?',
-      mime_type: '?'
-    });
-  }
-
   var Download = bookshelf.Model.extend({
     tableName: 'downloads',
 
