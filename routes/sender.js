@@ -2,12 +2,15 @@
 
 const send = require('send');
 const mime = require('mime-types')
+const statsExtractor = require('../lib/stats_extractor');
 
 module.exports = function sender(config, models) {
   var Download = models.Download;
   var File = models.File;
 
   function createSendStream(req, res) {
+    var exctractStatistics = statsExtractor(req, res);
+
     var startTime = new Date();
     var sentBytes = 0;
     var fileStat;
@@ -36,36 +39,24 @@ module.exports = function sender(config, models) {
     function onEnd() {
       var duration = new Date() - startTime;
       var totalBytes = fileStat.size;
-
       var transferState = sentBytes === totalBytes ? 'completed' : 'partial';
-      var values = extractValues(transferState, duration);
 
-      createDownload(req, fileStat, values);
+      createDownloadEntry(fileStat, transferState, duration);
     }
 
-    function createDownload(req, fileStat, values) {
-      return File.firstOrCreate({ path: req.path }, {
-        size: fileStat.size,
-        mime_type: mime.lookup(req.path)
-      })
+    function createDownloadEntry(fileStat, transferState, duration) {
+      return createFileEntry(fileStat)
       .then((file) => {
+        let values = exctractStatistics(transferState, duration, sentBytes);
         return file.downloads().create(values);
       });
     }
 
-    function extractValues(transferState, duration) {
-      return {
-        transfer_state: transferState,
-        transferred_bytes: sentBytes,
-        transfer_time: duration,
-        response_code: res.statusCode,
-        ip_address: req.ip,
-        country: '?',
-        raw_user_agent: req.headers['user-agent'] || 'unknown',
-        parsed_user_agent: '?',
-        raw_referrer: req.headers.referrer || 'unknown',
-        parsed_referrer: '?'
-      };
+    function createFileEntry(fileStat) {
+      return File.firstOrCreate({ path: req.path }, {
+        size: fileStat.size,
+        mime_type: mime.lookup(req.path)
+      });
     }
 
     var sendStream = send(req, req.path, { root: config.rootpath })
@@ -78,9 +69,9 @@ module.exports = function sender(config, models) {
 
     sendStream.on('close', function () {
       var duration = new Date() - startTime;
-      var values = extractValues('canceled', duration);
+      var transferState = 'canceled';
 
-      createDownload(req, fileStat, values);
+      createDownloadEntry(fileStat, transferState, duration);
     });
 
     return sendStream;
