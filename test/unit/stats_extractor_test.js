@@ -25,7 +25,7 @@ describe('statsExtractor', function () {
     transfer_time: duration,
     response_code: res.statusCode,
     ip_address: req.ip,
-    country: '?',
+    country: 'unknown',
     raw_user_agent: 'unknown',
     parsed_user_agent: 'Other',
     raw_referrer: 'unknown',
@@ -90,6 +90,29 @@ describe('statsExtractor', function () {
       let expectedStats = _.assign({}, expectedStatsTemplate, {
         raw_referrer: referrer,
         parsed_referrer: 'blog.binaergewitter.de'
+      });
+
+      assert.deepEqual(stats, expectedStats);
+    });
+  });
+
+  describe('with a german IP address', function () {
+    let ip = '193.99.144.80';
+
+    before(function () {
+      req.ip = ip;
+    });
+
+    after(function () {
+      req.ip = '127.0.0.1';
+    });
+
+    it('returns a response with the correctly parsed user agent', function () {
+      let stats = exctractStatistics('canceled', duration, sentBytes);
+
+      let expectedStats = _.assign({}, expectedStatsTemplate, {
+        ip_address: ip,
+        country: 'DE'
       });
 
       assert.deepEqual(stats, expectedStats);
