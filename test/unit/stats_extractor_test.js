@@ -29,7 +29,7 @@ describe('statsExtractor', function () {
     raw_user_agent: 'unknown',
     parsed_user_agent: 'Other',
     raw_referrer: 'unknown',
-    parsed_referrer: '?'
+    parsed_referrer: 'unknown'
   };
 
   const exctractStatistics = statsExtractor(req, res);
@@ -64,12 +64,35 @@ describe('statsExtractor', function () {
     it('returns a response with the correctly parsed user agent', function () {
       let stats = exctractStatistics('canceled', duration, sentBytes);
 
-      let expectedStats = _.merge(expectedStatsTemplate, {
+      let expectedStats = _.assign({}, expectedStatsTemplate, {
         raw_user_agent: userAgent,
         parsed_user_agent: 'Chrome'
       });
 
-      assert.deepEqual(stats, expectedStatsTemplate);
+      assert.deepEqual(stats, expectedStats);
+    });
+  });
+
+  describe('with a referrer', function () {
+    let referrer = 'http://blog.binaergewitter.de/';
+
+    before(function () {
+      req.headers.referrer = referrer;
+    });
+
+    after(function () {
+      req.headers.referrer = null;
+    });
+
+    it('returns a response with the correctly parsed user agent', function () {
+      let stats = exctractStatistics('canceled', duration, sentBytes);
+
+      let expectedStats = _.assign({}, expectedStatsTemplate, {
+        raw_referrer: referrer,
+        parsed_referrer: 'blog.binaergewitter.de'
+      });
+
+      assert.deepEqual(stats, expectedStats);
     });
   });
 
