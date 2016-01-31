@@ -35,7 +35,7 @@ module.exports = function file(bookshelf) {
   }, {
     /* class methods */
 
-    stats: function (qb) {
+    stats: function () {
       return this.query((qb) => {
         qb
         .select('path', 'size')
