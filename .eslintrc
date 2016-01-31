@@ -1,6 +1,7 @@
 {
   "ecmaFeatures": {
-    "blockBindings": true,
+    "arrowFunctions": true,
+    "blockBindings": true
   },
   "rules": {
     "semi": 2
