@@ -51,6 +51,8 @@
     "gulp-exit": "0.0.2",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0",
+    "proxyquire": "^1.7.3",
+    "sinon": "^1.17.3",
     "supertest": "^1.1.0"
   }
 }
