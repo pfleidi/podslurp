@@ -1,0 +1,14 @@
+{
+  "name": "podslurp",
+  "description": "An HTTP download server optimized for podcasts",
+  "keywords": [
+    "podcast",
+    "downloads",
+    "binaergewitter"
+  ],
+  "scripts": {
+    "dokku": {
+      "postdeploy": "knex --cwd db/ --knexfile config/database.js migrate:latest"
+    }
+  }
+}
