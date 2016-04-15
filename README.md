@@ -12,6 +12,12 @@ git clone https://github.com/pfleidi/podslurp.git && cd podslurp
 npm install
 ```
 
+## Migrations
+
+```bash
+knex --cwd db/ --knexfile config/database.js migrate:latest
+```
+
 ## Usage
 
 ```bash
@@ -27,6 +33,22 @@ Options:
 ```bash
 npm install -g gulp
 gulp test
+```
+
+
+## Deployment
+
+### Add dokku entry to `~/.ssh/config`:
+
+```
+Host dokku.roothausen.de
+  HostName dokku.roothausen.de
+  Port 23456
+```
+
+```bash
+git remote add dokku dokku@paas.roothausen.de:slurp
+git push dokku master
 ```
 
 ## License
