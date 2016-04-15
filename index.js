@@ -9,20 +9,11 @@ const dbConfigFile = require('./config/database');
 const database = require('./lib/database')(dbConfigFile);
 const models = require('./models')(database);
 
-var argv = require('yargs')
-.usage('Usage: $0 --rootpath /path/to/filedir [--port PORT]')
-.option('rootpath', {
-  alias: 'r',
-  describe: 'the root path where the files are located',
-  demand: true
-})
-.option('port', {
-  alias: 'p',
-  describe: 'the port to listen on',
-  default: 3000
-})
-.argv;
+const config = {
+  port: process.env.PORT || 3000,
+  rootpath: process.env.PODSLURP_ROOTPATH
+};
 
-var app = server.setup(argv, models);
+var app = server.setup(config, models);
 
-app.listen(argv.port);
+app.listen(config.port);

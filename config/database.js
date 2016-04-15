@@ -29,11 +29,7 @@ module.exports = {
 
   production: {
     client: 'mysql',
-    connection: {
-      database: 'podslurp_prod',
-      user:     'podslurp',
-      password: 'password'
-    },
+    connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10
